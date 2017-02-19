@@ -1,2 +1,2 @@
-# My-small-JavaScript
+# Learning JavaScript
 Small JavaScript files - learning exercises
