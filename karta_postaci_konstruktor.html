@@ -1,0 +1,99 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>Karta postaci</title>
+</head>
+<body>
+
+<p>Postacie w naszej drużynie:</p>
+
+Imię nowej postaci: <input id="noweImie" type="text" autofocus><br>
+Siła: <input id="nowaSila" type="number"><br>
+Stamina: <input id="nowaStamina" type="number"><br>
+Zręczność: <input id="nowaZrecznosc" type="number"><br>
+Klasa nowej postaci:  
+<form>
+<select name="klasy">
+    <option value="wojownik">Wojownik</option>
+    <option value="mag">Mag</option>
+    <option value="łotrzyk">Łotrzyk</option>
+  </select>
+</form>
+<button onclick='nowaPostacFunkcja()'>Zapisz do drużyny</button>
+
+<p id='niewidoczny' style='visibility: hidden'>
+Najnowsza postać to:<br>
+<p id='nowyGracz'></p></p>
+
+<p>Oto nasze postacie:</p>
+
+<p id='wypisz'></p>
+
+
+<script>
+// karty postaci za pomocą funkcji konstruktora
+
+//tutaj jest funkcja konstruktora
+function kartaPostaci(_gracz, _klasa, _sila, _stamina, _zrecznosc){
+   this.gracz = _gracz;
+   this.klasa =_klasa;
+   this.sila = _sila;
+   this.stamina = _stamina;
+   this.zrecznosc = _zrecznosc;
+   this.sredniaStatystyka = function(){
+  var srednia = (this.sila + this.stamina + this.zrecznosc)/3;
+  return srednia.toFixed(0);	
+}};
+
+
+var kartaWojownik = new kartaPostaci('Orzeł', 'wojownik', 30, 35, 20);
+var kartaMag = new kartaPostaci('Acid', 'mag', 10,20,33);
+
+//tutaj funkcja drukowania wszystkich postaci jakie są w 'bazie'
+document.addEventListener("DOMContentLoaded", 
+  function(){
+  var zbiorPostaci = [kartaWojownik, kartaMag]; /*wkladam postacie w Array, 
+  bo nie wiem jak inaczej w poniższej funkcji zliczyć ilość tych postaci */
+  
+  for (var i=0; i<zbiorPostaci.length; i++) {
+	document.getElementById('wypisz').innerHTML += 
+	'Imię gracza: ' + zbiorPostaci[i].gracz + '<br>' 
+	+ 'Klasa postaci: '+ zbiorPostaci[i].klasa + '<br>' 
+	+ 'Średnia statystyk: ' + zbiorPostaci[i].sredniaStatystyka() + '<p>';
+  }  
+});
+
+// tutaj funkcja dodania nowej postaci  z wypełnionego formularza
+function nowaPostacFunkcja() {
+	var noweImie = document.getElementById('noweImie').value;
+	var nowaKlasa = document.forms[0]['klasy'].value;
+	var nowaSila = document.getElementById('nowaSila').value;
+		//if ( isNaN(Number(nowaSila))==true){
+			//alert ('!');
+			//break nowaPostacFunkcja;
+			//}
+	var nowaStamina = document.getElementById('nowaStamina').value;
+	var nowaZrecznosc = document.getElementById('nowaZrecznosc').value;
+	var kartaNowa = new kartaPostaci
+	(noweImie, nowaKlasa, nowaSila, nowaStamina, nowaZrecznosc);
+	
+	var srednia = (Number(nowaSila) + Number(nowaStamina) 
+	+ Number(nowaZrecznosc))/3;
+
+	document.getElementById('nowyGracz').innerHTML = 
+	'Imię gracza: ' + noweImie + '<br>' 
+	+ 'Klasa postaci: ' + nowaKlasa + '<br>';
+
+	document.getElementById('wypisz').innerHTML +=
+	'Imię gracza: ' + kartaNowa.gracz + '<br>' 
+	+ 'Klasa postaci: '+ kartaNowa.klasa + '<br>' 
+	+ 'Średnia statystyk: ' + srednia.toFixed(0) + '<p>';
+	
+	document.getElementById('niewidoczny').style.visibility = "";
+
+};
+
+  
+</script>
+</body>
+</html>
